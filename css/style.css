@@ -24,3 +24,6 @@ svg {
     opacity: 0;
 }
 
+.mapboxgl-ctrl-top-right {
+    z-index: 110000;
+}

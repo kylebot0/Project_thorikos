@@ -33,49 +33,44 @@ function getD3() {
 // calculate the original d3 projection
 var d3Projection = getD3()
 
-function mapboxProjection(lonlat) {
-    console.log(lonlat)
-    var p = map.project(new mapboxgl.LngLat(lonlat[0], lonlat[1]))
-    return [p.x, p.y];
-}
-
 makeSVG()
 
 async function makeSVG(){
 await d3.csv('./grid.csv').then(function(data) {
     console.log(data);
     selectSVG.append("g").attr("class", "coords");
-
     selectSVG
-    .selectAll('.coords')
-    .data(data)
-    .enter()
-    .append("circle")
-        .attr("r", '1')
-        .style('fill', "red")
-        .style("fill-opacity", '1')
-            .style('stroke', "#004d60")
-            .style("stroke-width", '1')
-        .transition()
-        .duration(1000)
-        .attr("r", '5');
+      .selectAll(".coords")
+      .data(data)
+      .enter()
+      .append("rect")
+        // .attr("transform", "rotate(3)")
+      .attr("height", "1")
+      .attr("width", "1")
+      .style("fill", "white")
+      .style("fill-opacity", "1")
+      .style("stroke", "#004d60")
+      .style("stroke-width", "1")
+      .transition()
+      .duration(1000)
+      .attr("width", "35")
+      .attr("height", "35");
 
     function render() {
         d3Projection = getD3();
 
         selectSVG
-            .selectAll('circle')
+            .selectAll('rect')
           .data(data)
-          .attr('cx', function(d) {
-            console.log(d)
+          .attr('x', function(d) {
               let x = d3Projection([d.long, d.lat])[0];
-              console.log(x)
               return x;
             })
-            .attr('cy', function(d) {
+            .attr('y', function(d) {
             let y = d3Projection([d.long, d.lat])[1];
               return y;
-            });
+            })
+            // .attr('transform', 'scale('+  +')');
     }
 
     // re-render our visualization whenever the view changes
