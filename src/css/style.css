@@ -1,0 +1,154 @@
+@font-face {
+    font-family: greycliff;
+    src: url(fonts/GreycliffCF-Regular.otf);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: greycliff_bold;
+    src: url(fonts/GreycliffCF-Bold.otf);
+    font-weight: bold;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: greycliff;
+}
+
+#map {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+}
+
+canvas {
+    z-index: 0;
+}
+
+svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 110000;
+}
+
+
+.mapboxgl-ctrl-bottom-right {
+    opacity: 0;
+}
+
+.mapboxgl-ctrl-bottom-left {
+    opacity: 0;
+}
+
+div.tooltip {
+    font-size: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    text-align: center;
+    width: 135px;
+    height: 42px;
+    padding: 2px;
+    background: #FFF;
+    border: 0px;
+    pointer-events: none;
+    box-shadow: 0px 0px 10px 0px rgb(139, 139, 139);
+}
+
+div.tooltip:before {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+
+    border-top: 8px solid white;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    left: 50px;
+
+    top: 45px;
+}
+
+.nav-left {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    height: 100vh;
+    width: 25vw;
+    background-color: #EDEEEF;
+    box-shadow: 3px 0px 27px 0px rgba(153, 153, 153, 1);
+    z-index: 3000000;
+}
+
+.nav-left-title {
+    background-color: #FFF;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 2px 27px 0px rgba(153, 153, 153, 1);
+}
+
+.nav-left-title p {
+    margin-right: 10%;
+    color: grey;
+}
+
+.nav-left-title h1 {
+    margin-left: 10%;
+}
+
+.nav-left-fast-filters {
+    margin-top: 1em;
+    margin-left: 10%;
+    font-size: 0.7em;
+}
+
+
+.nav-left-fast-filters > h2{
+    font-family: greycliff_bold
+}
+
+.nav-left-filters {
+    margin-top: 2.5em;
+    background-color: #FFF;
+    height: 80%;
+    width: 100%;
+}
+
+.nav-left-fast-filters>div {
+    margin-top: 2em;
+}
+
+.selectAll {
+    margin: 2em 0.5em 0.5em 0;
+    padding: 1.2em;
+    cursor: pointer;
+    font-size: 1em;
+    background-color: #FFF;
+}
+
+.deselectAll {
+    margin: 0.5em;
+    padding: 1.2em;
+    cursor: pointer;
+    font-size: 1em;
+    background-color: #FFF;
+}
+
+.nav-bottom {
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    height: 12vh;
+    width: 100vw;
+    background-color: #EDEEEF;
+    z-index: 2000099;
+}
