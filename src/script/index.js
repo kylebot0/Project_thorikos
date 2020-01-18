@@ -1,184 +1,26 @@
-const grid = [
-  197,
-  200,
-  202,
-  203,
-  204,
-  206,
-  207,
-  151,
-  152,
-  156,
-  159,
-  169,
-  168,
-  167,
-  166,
-  198,
-  199,
-  201,
-  209,
-  208,
-  205,
-  177,
-  150,
-  153,
-  154,
-  155,
-  158,
-  160,
-  161,
-  162,
-  163,
-  103,
-  105,
-  106,
-  107,
-  108,
-  109,
-  110,
-  111,
-  112,
-  113,
-  114,
-  115,
-  116,
-  117,
-  118,
-  119,
-  0,
-  253,
-  184,
-  183,
-  182,
-  129,
-  130,
-  131,
-  132,
-  133,
-  134,
-  135,
-  137,
-  138,
-  139,
-  0,
-  191,
-  187,
-  185,
-  186,
-  181,
-  121,
-  123,
-  145,
-  144,
-  142,
-  140,
-  136,
-  127,
-  128,
-  0,
-  0,
-  190,
-  188,
-  178,
-  179,
-  180,
-  120,
-  122,
-  147,
-  146,
-  143,
-  141,
-  124,
-  125,
-  0,
-  0,
-  0,
-  0,
-  189,
-  0,
-  0,
-  172,
-  171,
-  173,
-  174,
-  175,
-  176,
-  170,
-  126,
-  0,
-  0,
-  0,
-  0
-];
-console.log(grid);
 mapboxgl.accessToken =
   "pk.eyJ1Ijoia3lsZS1ib3QiLCJhIjoiY2szNGQxeHVpMDA2eTNucG42dXRlbGN2OSJ9.xRLcc1Ki130PB1uaL9dKMQ";
 
 const map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/mapbox/satellite-streets-v11",
-  center: [24.0530, 37.7385],
+  center: [24.053, 37.7385],
   // bearing: 5,
   zoom: 15.5
 });
 
-map.scrollZoom.disable()
+map.scrollZoom.disable();
 map.addControl(new mapboxgl.NavigationControl());
 
 const container = map.getCanvasContainer();
 const svg = d3.select(container).append("svg");
-const selectSVG = d3.select(map.getCanvasContainer()).append('svg')
-const tooltip = d3.select("body").append("div")
+const selectSVG = d3.select(map.getCanvasContainer()).append("svg");
+const tooltip = d3
+  .select("body")
+  .append("div")
   .attr("class", "tooltip")
   .style("opacity", 0)
-  .style('z-index', '200000');
-// const latDif = 0.0000218158352;
-// const longDif = 0.0005681686864;
-// const grid = [
-//   {
-//     ID: "53",
-//     row: "1",
-//     lat: "37.7406400186936",
-//         long: "24.0493969266434"
-//   },
-//   {
-//     ID: "52",
-//     row: "2",
-//       lat: "37.7401188247967",
-//       long: "24.0493931461869"
-//   },
-//   {
-//     ID: "51",
-//     row: "3",
-//       lat: "37.7396672272274",
-//       long: "24.0493656766066"
-//   },
-//   {
-//     ID: "1",
-//     row: "4",
-//       lat: "37.7392167047904",
-//       long: "24.0493495418934"
-//   },
-//   {
-//     ID: "2",
-//     row: "5",
-//       lat: "37.738765502845",
-//       long: "24.0493220725487"
-//   },
-//   {
-//     ID: "3",
-//     row: "6",
-//       lat: "37.7383143008771",
-//       long: "24.0492946033563"
-//   },
-//   {
-//     ID: "4",
-//     row: "7",
-//       lat: "37.7378939074782",
-//       long: "24.0492676351279"
-//   }
-// ];
+  .style("z-index", "200000");
 
 function getD3() {
   const bbox = document.body.getBoundingClientRect();
@@ -198,12 +40,102 @@ let d3Projection = getD3();
 makeSVG();
 
 async function makeSVG() {
-  let data = await fetch("gridfeatures.json").then(data => data.json());
-  makeGrid(data);
+  let rawData = await d3.csv("finds.csv").then(data => data);
+  let cleanData = await nestData(rawData);
+  let gridData = await fetch("gridFinal.json").then(data => data.json());
+  makeFilters(rawData);
+  makeGrid(gridData, cleanData);
 }
 
-function makeGrid(data) {
+function nestData(rawData) {
+  let nestedArray = d3
+    .nest()
+    .key(d => {
+      return d.Context_Survey_Homogenized;
+    })
+    .entries(rawData);
+  console.log(nestedArray);
+  return nestedArray;
+}
+
+function makeFilters(rawData) {
+  let SHAPE_OBJECT = d3
+    .nest()
+    .key(d => {
+      return d.SHAPE_OBJECT;
+    })
+    .entries(rawData);
+
+  let SHAPE_DETAILS = d3
+    .nest()
+    .key(d => {
+      return d.SHAPE_DETAILS;
+    })
+    .entries(rawData);
+
+  let WARE = d3
+    .nest()
+    .key(d => {
+      return d.WARE;
+    })
+    .entries(rawData);
+
+  let PRODUCTION_PLACE = d3
+    .nest()
+    .key(d => {
+      return d.PRODUCTION_PLACE;
+    })
+    .entries(rawData);
+
+  let CONSERVATION = d3
+    .nest()
+    .key(d => {
+      return d.CONSERVATION;
+    })
+    .entries(rawData);
+
+  let CHRONOLOGY = d3
+    .nest()
+    .key(d => {
+      return d.CHRONOLOGY;
+    })
+    .entries(rawData);
+
+  let filters = [
+    SHAPE_OBJECT,
+    SHAPE_DETAILS,
+    WARE,
+    PRODUCTION_PLACE,
+    CONSERVATION,
+    CHRONOLOGY
+  ];
+
+  filters.forEach(function(item, i) {
+    d3.select("body")
+      .data(item)
+      .enter()
+      .select(".filter-container")
+      .append("label")
+      .html(function(d) {
+        console.log(i);
+        return "<input type='radio'> " + d.key;
+      });
+  });
+
+  console.log(filters);
+}
+
+function makeGrid(gridData, data) {
   function render(render) {
+    const totalItems = totalFound(data)
+    const maxValue = d3.max(data, function (d) {
+      return d.values.length;
+    });
+    const color = d3
+      .scaleLinear()
+      .range(["#fff","#fd8d3c"])
+      .domain([0, maxValue]);
+
     d3Projection = getD3();
     const path = d3.geoPath();
     if (render == true) {
@@ -224,16 +156,20 @@ function makeGrid(data) {
         .remove()
         .exit();
     }
+
+    // Making the grid
     const pathprojection = path.projection(getD3());
     selectSVG
       .insert("g")
       .selectAll("path")
-      .data(data.features)
+      .data(gridData.features)
       .enter()
       .append("path")
       .attr("d", pathprojection)
       .attr("data-tile", d => {
-        return d.properties.name;
+        let contextNr =
+          "T12-" + d.properties.context + "-" + d.properties.mesoindex;
+        return contextNr;
       })
       .on("click", d => {
         tooltip
@@ -242,7 +178,24 @@ function makeGrid(data) {
           .style("opacity", 0.9);
 
         tooltip
-          .html("<p>Macrosquare: " + d.properties.name + "</p>")
+          .html(function(){
+            if(d.properties.context == undefined) {
+              
+               return ("<p>" +
+                d.properties.name +
+                d.properties.row +
+                "-" +
+                d.properties.mesoindex +
+                "</p>")
+              
+            } else {
+            return ("<p>T12-" +
+              d.properties.context +
+              "-" +
+              d.properties.mesoindex +
+              "</p>")
+            }
+          })
           .style("left", d3.event.pageX - 60 + "px")
           .style("top", d3.event.pageY - 64 + "px");
       })
@@ -252,12 +205,33 @@ function makeGrid(data) {
           .duration(200)
           .style("opacity", 0);
       })
-
-      .style("fill", "white")
-      .style("fill-opacity", "0.6")
+      .style("fill", d => {
+        let contextNr =
+          "T12-" + d.properties.context + "-" + d.properties.mesoindex;
+        if (d.properties.context === undefined) {
+          return "white";
+        } else {
+          let fill = '';
+        data.forEach(function(item, i) {
+          if (contextNr === item.key) {
+            // console.log(contextNr);
+            fill = color(item.values.length);
+          } else {
+            return;
+          }
+        });
+        return fill
+      }
+      })
+      .style("fill-opacity", "0.9")
       .style("stroke", "#fff")
       .style("stroke-width", "1")
       .style("stroke-opacity", "0.3");
+
+      // Total finds for filters
+      d3.select(".nav-left-title").select('p').text(function(){
+        return totalItems + ' finds';
+      })
   }
 
   map.on("viewreset", function() {
@@ -268,4 +242,13 @@ function makeGrid(data) {
   });
 
   render();
+}
+
+function totalFound(data) {
+  let total = 0;
+  data.forEach(function(item, i) {
+    total = total + item.values.length;
+  })
+  console.log(total)
+  return total;
 }

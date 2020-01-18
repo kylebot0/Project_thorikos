@@ -111,8 +111,18 @@ div.tooltip:before {
 }
 
 
-.nav-left-fast-filters > h2{
+h2 {
     font-family: greycliff_bold
+}
+
+.nav-left-filters>div>h2 {
+    font-size: 1em;
+}
+
+.nav-left-filters>div {
+    margin-left: 2em;
+    margin-right: 2em;
+    border-bottom: 2px solid lightgrey;
 }
 
 .nav-left-filters {
