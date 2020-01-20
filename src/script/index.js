@@ -113,36 +113,51 @@ function makeFilters(gridData, rawData) {
     PRODUCTION_PLACE
   ];
 
-  filters.forEach(function(item, i) {
-    console.log(item);
-    d3.selectAll(".filter-container")
+  let filterCategory = [
+    'chronology',
+    'object',
+    'details',
+    'ware',
+    'conservation',
+    'place'
+  ]
+  filterCategory.forEach(function(category, i) {
+    appendFilters(filters[i], category)
+  })
+
+  fastFilters(gridData, rawData, cleanData)
+  openMenu()
+  filter(gridData, filters)
+}
+
+function appendFilters(filter, category) {
+    d3.selectAll(`.filter-container-${category}`)
       .selectAll("label")
-      .data(item)
+      .data(filter)
       .enter()
       .append("label")
       .attr("class", "filter-option")
-      .html(function(d) {
+      .html(function (d) {
         return `<input id="${d.key}" class="filter" type="checkbox" checked="checked"> ` + d.key;
-      });
   });
+}
 
+function fastFilters(gridData, rawData, cleanData) {
   d3.selectAll(".fast-filter").on("click", function () {
     this.id
-    if(this.id == "fast-filter-all") {
+    if (this.id == "fast-filter-all") {
       d3.select("#fast-filter-none").property("checked", false);
       d3.select(this).property("checked", true);
       makeGrid(gridData, cleanData);
-    } else if(this.id == "fast-filter-none") {
+    } else if (this.id == "fast-filter-none") {
       let noValues = [...new Set(rawData.Context_Survey_Homogenized)]
       console.log(noValues)
       d3.select("#fast-filter-all").property("checked", false)
       d3.select(this).property("checked", true)
-      
+
       makeGrid(gridData, noValues);
     }
   })
-  openMenu()
-  filter(gridData, filters)
 }
 
 function openMenu() {
@@ -305,6 +320,6 @@ function totalFound(data) {
   data.forEach(function(item, i) {
     total = total + item.values.length;
   })
-  console.log(total)
+  console.log("total finds: "+total)
   return total;
 }

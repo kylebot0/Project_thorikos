@@ -165,7 +165,63 @@ h2 {
     z-index: 2000099;
 }
 
-.filter-container {
+.filter-container-chronology {
+    transition: all 0.5s ease-out;
+    display: none;
+    flex-direction: column;
+    flex: 1 0 100%;
+    font-size: 0.8em;
+    max-height: 0;
+    overflow: hidden;
+    /* height: 0; */
+}
+
+.filter-container-object {
+    transition: all 0.5s ease-out;
+    display: none;
+    flex-direction: column;
+    flex: 1 0 100%;
+    font-size: 0.8em;
+    max-height: 0;
+    overflow: hidden;
+    /* height: 0; */
+
+}
+
+.filter-container-details {
+    transition: all 0.5s ease-out;
+    display: none;
+    flex-direction: column;
+    flex: 1 0 100%;
+    font-size: 0.8em;
+    max-height: 0;
+    overflow: hidden;
+    /* height: 0; */
+}
+
+.filter-container-ware {
+    transition: all 0.5s ease-out;
+    display: none;
+    flex-direction: column;
+    flex: 1 0 100%;
+    font-size: 0.8em;
+    max-height: 0;
+    overflow: hidden;
+    /* height: 0; */
+}
+
+.filter-container-conservation {
+    transition: all 0.5s ease-out;
+    display: none;
+    flex-direction: column;
+    flex: 1 0 100%;
+    font-size: 0.8em;
+    max-height: 0;
+    overflow: hidden;
+    /* height: 0; */
+}
+
+.filter-container-place {
     transition: all 0.5s ease-out;
     display: none;
     flex-direction: column;
