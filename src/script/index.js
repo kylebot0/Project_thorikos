@@ -1,3 +1,4 @@
+
 mapboxgl.accessToken =
   "pk.eyJ1Ijoia3lsZS1ib3QiLCJhIjoiY2szNGQxeHVpMDA2eTNucG42dXRlbGN2OSJ9.xRLcc1Ki130PB1uaL9dKMQ";
 
@@ -43,7 +44,7 @@ async function makeSVG() {
   let rawData = await d3.csv("finds.csv").then(data => data);
   let cleanData = await nestData(rawData);
   let gridData = await fetch("gridFinal.json").then(data => data.json());
-  makeFilters(rawData);
+  makeFilters(gridData, rawData);
   makeGrid(gridData, cleanData);
 }
 
@@ -54,11 +55,13 @@ function nestData(rawData) {
       return d.Context_Survey_Homogenized;
     })
     .entries(rawData);
-  console.log(nestedArray);
   return nestedArray;
 }
 
-function makeFilters(rawData) {
+function makeFilters(gridData, rawData) {
+  console.log(rawData)
+  let cleanData = nestData(rawData);
+
   let SHAPE_OBJECT = d3
     .nest()
     .key(d => {
@@ -102,31 +105,80 @@ function makeFilters(rawData) {
     .entries(rawData);
 
   let filters = [
+    CHRONOLOGY,
     SHAPE_OBJECT,
     SHAPE_DETAILS,
     WARE,
-    PRODUCTION_PLACE,
     CONSERVATION,
-    CHRONOLOGY
+    PRODUCTION_PLACE
   ];
 
   filters.forEach(function(item, i) {
-    d3.select("body")
+    console.log(item);
+    d3.selectAll(".filter-container")
+      .selectAll("label")
       .data(item)
       .enter()
-      .select(".filter-container")
       .append("label")
+      .attr("class", "filter-option")
       .html(function(d) {
-        console.log(i);
-        return "<input type='radio'> " + d.key;
+        return `<input id="${d.key}" class="filter" type="checkbox" checked="checked"> ` + d.key;
       });
   });
 
-  console.log(filters);
+  d3.selectAll(".fast-filter").on("click", function () {
+    this.id
+    if(this.id == "fast-filter-all") {
+      d3.select("#fast-filter-none").property("checked", false);
+      d3.select(this).property("checked", true);
+      makeGrid(gridData, cleanData);
+    } else if(this.id == "fast-filter-none") {
+      let noValues = [...new Set(rawData.Context_Survey_Homogenized)]
+      console.log(noValues)
+      d3.select("#fast-filter-all").property("checked", false)
+      d3.select(this).property("checked", true)
+      
+      makeGrid(gridData, noValues);
+    }
+  })
+  openMenu()
+  filter(gridData, filters)
+}
+
+function openMenu() {
+  d3.selectAll("button").on("click", function () {
+    let element = this.nextElementSibling;
+    if (element.classList.contains("show")) {
+      d3.select(this).text("+")
+      element.classList.toggle("show")
+    } else {
+      d3.select(this).text("-");
+      element.classList.toggle("show");
+    }
+  })
+}
+function filter(gridData, filters) {
+  filters = filters.flat()
+  d3.selectAll(".filter")
+  .on("click", function(){
+    let category = this.id;
+    let filteredArray = []
+    filters.forEach(function(item, i){
+      if (item.key == category){
+        let nestedArray = nestData(item.values)
+        filteredArray = nestedArray;
+      } else {
+        return
+      }
+    })
+    makeGrid(gridData, filteredArray)
+  })
 }
 
 function makeGrid(gridData, data) {
+  render(true)
   function render(render) {
+    console.log(data)
     const totalItems = totalFound(data)
     const maxValue = d3.max(data, function (d) {
       return d.values.length;
@@ -179,6 +231,8 @@ function makeGrid(gridData, data) {
 
         tooltip
           .html(function(){
+            let contextNr =
+              "T12-" + d.properties.context + "-" + d.properties.mesoindex;
             if(d.properties.context == undefined) {
               
                return ("<p>" +
@@ -189,10 +243,9 @@ function makeGrid(gridData, data) {
                 "</p>")
               
             } else {
-            return ("<p>T12-" +
-              d.properties.context +
-              "-" +
-              d.properties.mesoindex +
+            return ("<p>" +
+            contextNr
+              +
               "</p>")
             }
           })
@@ -206,30 +259,35 @@ function makeGrid(gridData, data) {
           .style("opacity", 0);
       })
       .style("fill", d => {
-        let contextNr =
+        let context =
           "T12-" + d.properties.context + "-" + d.properties.mesoindex;
         if (d.properties.context === undefined) {
           return "white";
+        } else if(data.length == 0) {
+          return "white"
         } else {
           let fill = '';
+          let boolean = false;
         data.forEach(function(item, i) {
-          if (contextNr === item.key) {
-            // console.log(contextNr);
-            fill = color(item.values.length);
-          } else {
-            return;
-          }
+            if (context === item.key) {
+              boolean = true;
+              fill = color(item.values.length);
+            } else if (boolean == false) {
+              fill = "white"
+            } else {
+              return;
+            }
         });
         return fill
       }
       })
-      .style("fill-opacity", "0.9")
+      .style("fill-opacity", "0.8")
       .style("stroke", "#fff")
       .style("stroke-width", "1")
       .style("stroke-opacity", "0.3");
 
       // Total finds for filters
-      d3.select(".nav-left-title").select('p').text(function(){
+      d3.select(".nav-bottom").select('h2').text(function(){
         return totalItems + ' finds';
       })
   }
@@ -240,8 +298,6 @@ function makeGrid(gridData, data) {
   map.on("move", function() {
     render(true);
   });
-
-  render();
 }
 
 function totalFound(data) {

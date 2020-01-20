@@ -13,21 +13,20 @@
 </head>
 <body>
     <div id="map"></div>
-    <script type='module' src="script/gridContext.js"></script>
     <div class="nav-left">
     <div class="nav-left-title">
         <h1>Filters</h1>
-        <p>1,375 finds</p>
+        
     </div>
     <div class="nav-left-fast-filters">
         <h2>FAST FILTERS</h2>
         <div>
             <label class="selectAll">
-                <input type="radio" checked="checked">
+                <input class="fast-filter" id="fast-filter-all" type="radio" checked="checked">
                 Select all options
             </label>
             <label class="deselectAll">
-                <input type="radio">
+                <input class="fast-filter" id="fast-filter-none" type="radio">
                 Deselect all options
             </label>
             </div>
@@ -35,24 +34,39 @@
     <div class="nav-left-filters"">
         <div class="filter-chronology">
             <h2>TIME PERIOD</h2>
+            <button>+</button>
             <div class="filter-container"></div>
         </div>
         <div class="filter-shape-object">
             <h2>OBJECT TYPE</h2>
+            <button>+</button>
             <div class="filter-container"></div>
         </div>
-        <div class="filter-shape-details"><h2>OBJECT DETAILS</h2><div class="filter-container"></div></div>
-        <div class="filter-ware"><h2>WARE</h2><div class="filter-container"></div></div>
+        <div class="filter-shape-details">
+            <h2>OBJECT DETAILS</h2>
+            <button>+</button>
+            <div class="filter-container"></div>
+        </div>
+        <div class="filter-ware">
+            <h2>WARE</h2>
+            <button>+</button>
+            <div class="filter-container"></div>
+        </div>
         <div class="filter-conservation">
             <h2>CONSERVATION</h2>
+            <button>+</button>
             <div class="filter-container"></div>
         </div>
 
-        <div class="filter-production-place"><h2>PRODUCTION PLACE</h2></div>
+        <div class="filter-production-place">
+            <h2>PRODUCTION PLACE</h2>
+        <button>+</button>
+        <div class="filter-container"></div>
+    </div>
     </div>
     </div>
     <div class="nav-bottom">
-
+        <h2></h2>
     </div>
     <script src="script/index.js"></script>
 </body>
