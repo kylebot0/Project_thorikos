@@ -1,4 +1,3 @@
-
 mapboxgl.accessToken =
   "pk.eyJ1Ijoia3lsZS1ib3QiLCJhIjoiY2szNGQxeHVpMDA2eTNucG42dXRlbGN2OSJ9.xRLcc1Ki130PB1uaL9dKMQ";
 
@@ -59,12 +58,12 @@ function nestData(rawData) {
 }
 
 function makeFilters(gridData, rawData) {
-  console.log(rawData)
   let cleanData = nestData(rawData);
 
   let SHAPE_OBJECT = d3
     .nest()
     .key(d => {
+      d.SHAPE_OBJECT = d.SHAPE_OBJECT.toLowerCase();
       return d.SHAPE_OBJECT;
     })
     .entries(rawData);
@@ -72,6 +71,7 @@ function makeFilters(gridData, rawData) {
   let SHAPE_DETAILS = d3
     .nest()
     .key(d => {
+      d.SHAPE_DETAILS = d.SHAPE_DETAILS.toLowerCase();
       return d.SHAPE_DETAILS;
     })
     .entries(rawData);
@@ -79,6 +79,7 @@ function makeFilters(gridData, rawData) {
   let WARE = d3
     .nest()
     .key(d => {
+      d.WARE = d.WARE.toLowerCase();
       return d.WARE;
     })
     .entries(rawData);
@@ -86,6 +87,7 @@ function makeFilters(gridData, rawData) {
   let PRODUCTION_PLACE = d3
     .nest()
     .key(d => {
+      d.PRODUCTION_PLACE = d.PRODUCTION_PLACE.toLowerCase();
       return d.PRODUCTION_PLACE;
     })
     .entries(rawData);
@@ -93,6 +95,7 @@ function makeFilters(gridData, rawData) {
   let CONSERVATION = d3
     .nest()
     .key(d => {
+      d.CONSERVATION = d.CONSERVATION.toLowerCase();
       return d.CONSERVATION;
     })
     .entries(rawData);
@@ -100,6 +103,7 @@ function makeFilters(gridData, rawData) {
   let CHRONOLOGY = d3
     .nest()
     .key(d => {
+      d.CHRONOLOGY = d.CHRONOLOGY.toLowerCase();
       return d.CHRONOLOGY;
     })
     .entries(rawData);
@@ -114,93 +118,151 @@ function makeFilters(gridData, rawData) {
   ];
 
   let filterCategory = [
-    'chronology',
-    'object',
-    'details',
-    'ware',
-    'conservation',
-    'place'
-  ]
-  filterCategory.forEach(function(category, i) {
-    appendFilters(filters[i], category)
-  })
+    "chronology",
+    "object",
+    "details",
+    "ware",
+    "conservation",
+    "place"
+  ];
 
-  fastFilters(gridData, rawData, cleanData)
-  openMenu()
-  filter(gridData, filters)
+  filters.forEach(function(item, i) {
+    item.sort(function(a, b) {
+      let textA = a.key.toUpperCase();
+      let textB = b.key.toUpperCase();
+      return textA < textB ? -1 : textA > textB ? 1 : 0;
+    });
+  });
+
+  filterCategory.forEach(function(category, i) {
+    appendFilters(filters[i], category);
+  });
+  openMenu();
+  lowerCase(rawData);
+  let newRawData = [...rawData];
+  // console.log(newRawData)
+  filter(gridData, filters, rawData, newRawData);
 }
 
 function appendFilters(filter, category) {
-    d3.selectAll(`.filter-container-${category}`)
-      .selectAll("label")
-      .data(filter)
-      .enter()
-      .append("label")
-      .attr("class", "filter-option")
-      .html(function (d) {
-        return `<input id="${d.key}" class="filter" type="checkbox" checked="checked"> ` + d.key;
-  });
-}
-
-function fastFilters(gridData, rawData, cleanData) {
-  d3.selectAll(".fast-filter").on("click", function () {
-    this.id
-    if (this.id == "fast-filter-all") {
-      d3.select("#fast-filter-none").property("checked", false);
-      d3.select(this).property("checked", true);
-      makeGrid(gridData, cleanData);
-    } else if (this.id == "fast-filter-none") {
-      let noValues = [...new Set(rawData.Context_Survey_Homogenized)]
-      console.log(noValues)
-      d3.select("#fast-filter-all").property("checked", false)
-      d3.select(this).property("checked", true)
-
-      makeGrid(gridData, noValues);
-    }
-  })
+  d3.selectAll(`.filter-container-${category}`)
+    .selectAll("label")
+    .data(filter)
+    .enter()
+    .append("label")
+    .attr("class", "filter-option")
+    .html(function(d) {
+      return (
+        `<input id="${d.key}" class="filter" type="checkbox" checked="checked"> ` +
+        d.key
+      );
+    });
 }
 
 function openMenu() {
-  d3.selectAll("button").on("click", function () {
+  d3.selectAll("button").on("click", function() {
     let element = this.nextElementSibling;
     if (element.classList.contains("show")) {
-      d3.select(this).text("+")
-      element.classList.toggle("show")
+      d3.select(this).text("+");
+      element.classList.toggle("show");
     } else {
       d3.select(this).text("-");
       element.classList.toggle("show");
     }
-  })
+  });
 }
-function filter(gridData, filters) {
-  filters = filters.flat()
-  d3.selectAll(".filter")
-  .on("click", function(){
+
+function filter(gridData, filters, data, cleanData) {
+  d3.selectAll(".fast-filter").on("click", function () {
+    if (this.id == "fast-filter-all") {
+      data = cleanData;
+      d3.select("#fast-filter-none").property("checked", false);
+      d3.select(this).property("checked", true);
+      d3.selectAll(".filter").property("checked", true);
+      let nestedArray = nestData(cleanData);
+      filteredArray = nestedArray;
+      makeGrid(gridData, filteredArray);
+    } else if (this.id == "fast-filter-none") {
+      data = []
+      d3.select("#fast-filter-all").property("checked", false);
+      d3.select(this).property("checked", true);
+      d3.selectAll(".filter").property("checked", false);
+
+      makeGrid(gridData, data);
+    }
+  });
+
+
+  filters = filters.flat();
+  d3.selectAll(".filter").on("click", function() {
+    let filterButton = this;
     let category = this.id;
-    let filteredArray = []
-    filters.forEach(function(item, i){
-      if (item.key == category){
-        let nestedArray = nestData(item.values)
-        filteredArray = nestedArray;
-      } else {
-        return
-      }
-    })
-    makeGrid(gridData, filteredArray)
-  })
+    let filteredArray = [];
+    if (this.checked) {
+      cleanData.forEach(function(item, i) {
+        if (category === item.CHRONOLOGY) {
+          data.push(item);
+        } else if (category === item.SHAPE_OBJECT) {
+          data.push(item);
+        } else if (category === item.SHAPE_DETAILS) {
+          data.push(item);
+        } else if (category === item.WARE) {
+          data.push(item);
+        } else if (category === item.CONSERVATION) {
+          data.push(item);
+        } else if (category === item.PRODUCTION_PLACE) {
+          data.push(item);
+        } else {
+          return;
+        }
+      });
+      let nestedArray = nestData(data);
+      filteredArray = nestedArray;
+      makeGrid(gridData, filteredArray);
+    } else if (!this.checked) {
+      data = data.filter(function(item) {
+        if (category === item.CHRONOLOGY) {
+          return false;
+        } else if (category === item.SHAPE_OBJECT) {
+          return false;
+        } else if (category === item.SHAPE_DETAILS) {
+          return false;
+        } else if (category === item.WARE) {
+          return false;
+        } else if (category === item.CONSERVATION) {
+          return false;
+        } else if (category === item.PRODUCTION_PLACE) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+      console.log(data);
+      let nestedArray = nestData(data);
+      filteredArray = nestedArray;
+    } else {
+      return;
+    }
+    makeGrid(gridData, filteredArray);
+  });
+}
+
+function lowerCase(data) {
+  data.forEach(function(item, i) {
+    item.CHRONOLOGY = item.CHRONOLOGY.toLowerCase();
+  });
 }
 
 function makeGrid(gridData, data) {
-  render(true)
+  render(true);
   function render(render) {
-    console.log(data)
-    const totalItems = totalFound(data)
-    const maxValue = d3.max(data, function (d) {
+    const totalItems = totalFound(data);
+    const maxValue = d3.max(data, function(d) {
       return d.values.length;
     });
     const color = d3
       .scaleLinear()
-      .range(["#fff","#fd8d3c"])
+      .range(["#fff", "#fd8d3c"])
       .domain([0, maxValue]);
 
     d3Projection = getD3();
@@ -245,23 +307,20 @@ function makeGrid(gridData, data) {
           .style("opacity", 0.9);
 
         tooltip
-          .html(function(){
+          .html(function() {
             let contextNr =
               "T12-" + d.properties.context + "-" + d.properties.mesoindex;
-            if(d.properties.context == undefined) {
-              
-               return ("<p>" +
+            if (d.properties.context == undefined) {
+              return (
+                "<p>" +
                 d.properties.name +
                 d.properties.row +
                 "-" +
                 d.properties.mesoindex +
-                "</p>")
-              
+                "</p>"
+              );
             } else {
-            return ("<p>" +
-            contextNr
-              +
-              "</p>")
+              return "<p>" + contextNr + "</p>";
             }
           })
           .style("left", d3.event.pageX - 60 + "px")
@@ -278,33 +337,35 @@ function makeGrid(gridData, data) {
           "T12-" + d.properties.context + "-" + d.properties.mesoindex;
         if (d.properties.context === undefined) {
           return "white";
-        } else if(data.length == 0) {
-          return "white"
+        } else if (data.length == 0) {
+          return "white";
         } else {
-          let fill = '';
+          let fill = "";
           let boolean = false;
-        data.forEach(function(item, i) {
+          data.forEach(function(item, i) {
             if (context === item.key) {
               boolean = true;
               fill = color(item.values.length);
             } else if (boolean == false) {
-              fill = "white"
+              fill = "white";
             } else {
               return;
             }
-        });
-        return fill
-      }
+          });
+          return fill;
+        }
       })
       .style("fill-opacity", "0.8")
       .style("stroke", "#fff")
       .style("stroke-width", "1")
       .style("stroke-opacity", "0.3");
 
-      // Total finds for filters
-      d3.select(".nav-bottom").select('h2').text(function(){
-        return totalItems + ' finds';
-      })
+    // Total finds for filters
+    d3.select(".nav-bottom")
+      .select("h2")
+      .text(function() {
+        return totalItems + " finds";
+      });
   }
 
   map.on("viewreset", function() {
@@ -319,7 +380,7 @@ function totalFound(data) {
   let total = 0;
   data.forEach(function(item, i) {
     total = total + item.values.length;
-  })
-  console.log("total finds: "+total)
+  });
+  console.log("total finds: " + total);
   return total;
 }
