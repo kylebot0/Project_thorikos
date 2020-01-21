@@ -13,8 +13,7 @@ map.scrollZoom.disable();
 map.addControl(new mapboxgl.NavigationControl());
 
 const container = map.getCanvasContainer();
-const svg = d3.select(container).append("svg");
-const selectSVG = d3.select(map.getCanvasContainer()).append("svg");
+const selectSVG = d3.select(map.getCanvasContainer()).append("svg").attr("class", "map");
 const tooltip = d3
   .select("body")
   .append("div")
@@ -59,6 +58,7 @@ function nestData(rawData) {
 
 function makeFilters(gridData, rawData) {
   let cleanData = nestData(rawData);
+
 
   let SHAPE_OBJECT = d3
     .nest()
@@ -142,6 +142,75 @@ function makeFilters(gridData, rawData) {
   let newRawData = [...rawData];
   // console.log(newRawData)
   filter(gridData, filters, rawData, newRawData);
+  filterCategory.forEach(function(category, i){
+    makeBars(filters, category, i)
+  })
+}
+
+function makeBars(filters, category, i) {
+  console.log(filters[i])
+  let barChart = d3
+    .select(`.filter-chart-container-${category}`)
+    .append("svg")
+    .attr("class", "bar-chart")
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .append("g");
+  // let margin = 200;
+  let width = 50;
+  d3.selectAll(".filter-container").attr("class", "filter-container show")
+  d3.selectAll(`.filter-container-${category}`).attr("class", `filter-container-${category} show`);
+  let height = d3
+    .select(`.filter-chart-container-${category}`)
+    .node()
+    .getBoundingClientRect().height;
+  // console.log(maxHeight)
+  d3.selectAll(".filter-container").attr("class", "filter-container")
+  d3.selectAll(`.filter-container-${category}`).attr("class", `filter-container-${category}`);
+  var maximumY = d3.max(filters[0], function (d) {
+    return d.values.length;
+  });
+
+  var y = d3.scaleBand()
+    .range([0, height])
+    .padding(0);
+
+  var x = d3.scaleLinear()
+    .range([0, width]);
+
+  x.domain([
+    -(maximumY * 0.03),
+    (d3.max(filters[i], function(d) {
+      return d.values.length;
+    })
+  ) / 2]);
+  y.domain(filters[i].map(function (d) { return d.key; }));
+
+  let bars = barChart.selectAll(".bar")
+    .data(filters[i])
+    .enter()
+    .append("g")
+
+  bars
+    .append("rect")
+    .attr("class", "bar")
+    .attr("width", function (d) { return x(d.values.length); })
+    .attr("y", function (d) { return y(d.key); })
+    .attr("height", "12")
+    .style("fill", "lightgrey")
+
+
+  bars.append("text")
+    .attr("class", "label")
+    .attr("y", function (d) {
+      return y(d.key) + 10;
+    })
+    .attr("x", function (d) {
+      return 100;
+    })
+    .text(function (d) {
+      return d.values.length;
+    });
 }
 
 function appendFilters(filter, category) {
@@ -162,14 +231,19 @@ function appendFilters(filter, category) {
 function openMenu() {
   d3.selectAll("button").on("click", function() {
     let element = this.nextElementSibling;
+    let childElement = this.nextElementSibling.children[0];
     if (element.classList.contains("show")) {
       d3.select(this).text("+");
       element.classList.toggle("show");
+      childElement.classList.toggle("show");
     } else {
       d3.select(this).text("-");
       element.classList.toggle("show");
+      childElement.classList.toggle("show");
     }
+    
   });
+
 }
 
 function filter(gridData, filters, data, cleanData) {
@@ -256,6 +330,7 @@ function lowerCase(data) {
 function makeGrid(gridData, data) {
   render(true);
   function render(render) {
+    console.log(data)
     const totalItems = totalFound(data);
     const maxValue = d3.max(data, function(d) {
       return d.values.length;

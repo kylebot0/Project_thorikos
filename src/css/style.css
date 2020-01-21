@@ -26,10 +26,10 @@ canvas {
     z-index: 0;
 }
 
-svg {
+.map {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     z-index: 110000;
 }
 
@@ -80,10 +80,11 @@ div.tooltip:before {
     flex-direction: column;
     position: absolute;
     height: 100vh;
-    width: 25vw;
+    width: 32vw;
     background-color: #EDEEEF;
     box-shadow: 3px 0px 27px 0px rgba(153, 153, 153, 1);
     z-index: 3000000;
+    overflow-y: scroll;
 }
 
 .nav-left-title {
@@ -132,7 +133,7 @@ h2 {
 .nav-left-filters {
     margin-top: 2.5em;
     background-color: #FFF;
-    height: 80%;
+    height: 1000%;
     width: 100%;
 }
 
@@ -160,76 +161,141 @@ h2 {
     justify-content: space-between;
     position: absolute;
     height: 12vh;
-    width: 75vw;
+    width: 68vw;
     background-color: #EDEEEF;
     z-index: 2000099;
 }
 
 .filter-container-chronology {
     transition: all 0.5s ease-out;
-    display: none;
     flex-direction: column;
-    flex: 1 0 100%;
+    max-width: 65%;
     font-size: 0.8em;
     max-height: 0;
-    overflow: hidden;
     /* height: 0; */
+}
+
+
+.filter-chart-container-chronology {
+    transition: all 0.5s ease-out;
+    max-height: 100%;
+    max-width: 35%;
+    flex-direction: column;
+    font-size: 0.8em;
+    overflow: hidden;
+    margin-left: 2em;
 }
 
 .filter-container-object {
     transition: all 0.5s ease-out;
     display: none;
     flex-direction: column;
-    flex: 1 0 100%;
     font-size: 0.8em;
     max-height: 0;
     overflow: hidden;
     /* height: 0; */
 
+}
+
+.filter-chart-container-object {
+    transition: all 0.5s ease-out;
+    max-height: 100%;
+    max-width: 35%;
+    flex-direction: column;
+    font-size: 0.8em;
+    overflow: hidden;
+    margin-left: 2em;
 }
 
 .filter-container-details {
     transition: all 0.5s ease-out;
     display: none;
     flex-direction: column;
-    flex: 1 0 100%;
     font-size: 0.8em;
     max-height: 0;
     overflow: hidden;
     /* height: 0; */
+}
+
+.filter-chart-container-details {
+    transition: all 0.5s ease-out;
+    max-height: 100%;
+    max-width: 35%;
+    flex-direction: column;
+    font-size: 0.8em;
+    overflow: hidden;
+    margin-left: 2em;
 }
 
 .filter-container-ware {
     transition: all 0.5s ease-out;
     display: none;
     flex-direction: column;
-    flex: 1 0 100%;
     font-size: 0.8em;
     max-height: 0;
     overflow: hidden;
     /* height: 0; */
+}
+
+.filter-chart-container-ware {
+    transition: all 0.5s ease-out;
+    max-height: 100%;
+    max-width: 35%;
+    flex-direction: column;
+    font-size: 0.8em;
+    overflow: hidden;
+    margin-left: 2em;
 }
 
 .filter-container-conservation {
     transition: all 0.5s ease-out;
     display: none;
     flex-direction: column;
-    flex: 1 0 100%;
     font-size: 0.8em;
     max-height: 0;
     overflow: hidden;
     /* height: 0; */
 }
 
+.filter-chart-container-conservation {
+    transition: all 0.5s ease-out;
+    max-height: 100%;
+    max-width: 35%;
+    flex-direction: column;
+    font-size: 0.8em;
+    overflow: hidden;
+    margin-left: 2em;
+}
+
 .filter-container-place {
     transition: all 0.5s ease-out;
     display: none;
     flex-direction: column;
-    flex: 1 0 100%;
     font-size: 0.8em;
     max-height: 0;
     overflow: hidden;
+    width: 50%;
     /* height: 0; */
+}
+
+.filter-chart-container-place {
+    transition: all 0.5s ease-out;
+    max-height: 100%;
+    max-width: 35%;
+    flex-direction: column;
+    font-size: 0.8em;
+    overflow: hidden;
+    margin-left: 2em;
+}
+
+
+.filter-container {
+    display: none;
+    flex: 1 0 100%;
+    max-height: 0;
+    max-width: 100%;
+    flex-direction: row;
+    transition: all 0.5s ease-out;
 }
 
 .nav-left-filters button {
@@ -246,4 +312,8 @@ h2 {
     transition: all 0.5s ease-out !important;
     display: flex !important;
     max-height: 100% !important;
+}
+
+.filter-option {
+    margin-bottom: 5px;
 }
