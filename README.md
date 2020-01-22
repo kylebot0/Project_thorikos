@@ -172,7 +172,7 @@ localhost:3000
 
 ## Credits
 
-I followed a tutorial for the legend from: https://www.d3-graph-gallery.com/graph/bubble_legend.html. It shows a complete example on how to make it. The functional getData pattern i got from Laurens. It is tweaked heavily so i kinda gave my own twist to it.
+A lot of credits towards Damian, he made the final working grid 25x25. Check him out [here.](https://github.com/damian1997)
 
 
 ## License
