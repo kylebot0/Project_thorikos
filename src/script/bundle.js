@@ -301,8 +301,8 @@ function filter(gridData, filters, data, cleanData) {
     let filterButton = this;
     let category = this.id;
     category = category.replace(/[_]/g, "/");
-    category = category.replace(/[ ]/g, "-");
-    category = category.replace(/[+]/g, "p");
+    category = category.replace(/[-]/g, " ");
+    category = category.replace(/[p]/g, "p");
     category = category.replace(/[?]/g, "q");
     let filteredArray = [];
     if (this.checked) {
@@ -377,7 +377,6 @@ function updateBars(filters, category, filterButton, data) {
           if (d3.select(bar).property("id") == item.key) {
             // console.log(category);
             let inputChecked = d3.select(`#${category}`);
-            console.log(inputChecked)
             if (inputChecked.property("checked") == false) {
               fill = "lightgrey";
             } else if (inputChecked.property("checked") == true) {
@@ -494,6 +493,7 @@ function makeGrid(gridData, data) {
 
     //Make legend
     makeLegend(data, pivotArray, maxValue);
+    d3.select("#loading").remove().exit()
   }
 
   map.on("viewreset", function() {
@@ -552,24 +552,21 @@ function matchContextToPath(data, d, pivotArray, maxValue) {
 }
 
 function makeTooltip(d, data) {
-  console.log(d);
   if (d.properties.context == undefined) {
     return (
-      "</div class='tooltip-container'><h2>" +
-      d.properties.name +
-      d.properties.row +
-      "-" +
+      "<h2>A-" +
       d.properties.mesoindex +
-      "</h2><p>" +
-      "0" +
-      "</p></div>"
+      "</h2><div class='tooltip-container'><h3>0" +
+      "</h3>" +
+      "<p>FOUND OBJECTS*</p>" +
+      "</div><div class='tooltip-container'>" 
+      +"</div>"
     );
   } else {
-    let contextNr =
-      "T12-" + d.properties.context + "-" + d.properties.mesoindex;
+    let contextNr = "T12-" + d.properties.context + "-" + d.properties.mesoindex;
     let objectsFound = 0;
 
-    data.forEach(function(item, i) {
+    data.forEach(function (item, i) {
       if (contextNr === item.key) {
         boolean = true;
         objectsFound = item.values.length;
@@ -577,7 +574,6 @@ function makeTooltip(d, data) {
         return;
       }
     });
-
     return (
       "<h2>" +
       contextNr +
