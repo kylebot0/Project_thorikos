@@ -9,14 +9,22 @@
     <script src="https://unpkg.com/topojson@3.0.2/dist/topojson.min.js"></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css' rel='stylesheet' />
-    <title>Document</title>
+    <link rel="shortcut icon" type="image/x-icon" href="css/icons/Amphitheater.png">
+    <title>Thorikos in Beeld</title>
 </head>
 <body>
     <div id="map"></div>
     <div class="nav-left">
     <div class="nav-left-title">
-        <h1>Filters</h1>
-        
+        <h1>Mode</h1>
+        <div class="nav-left-title-buttons">
+            <button>
+                FINDS
+            </button><!--
+            --><button>
+                FIELD
+            </button>
+        </div>
     </div>
     <div class="nav-left-fast-filters">
         <h2>FAST FILTERS</h2>
@@ -34,38 +42,38 @@
     <div class="nav-left-filters"">
         <div class="filter-chronology">
             <h2>TIME PERIOD</h2>
-            <button>+</button>
+            <button class="menu">+</button>
         <div class="filter-container"> <div class="filter-container-chronology"></div>
             <div class="filter-chart-container-chronology"></div></div>
         </div>
         <div class="filter-shape-object">
             <h2>OBJECT TYPE</h2>
-            <button>+</button>
+            <button class="menu">+</button>
             <div class="filter-container"><div class="filter-container-object"></div>
             <div class="filter-chart-container-object"></div></div>
         </div>
         <div class="filter-shape-details">
             <h2>OBJECT DETAILS</h2>
-            <button>+</button>
+            <button class="menu">+</button>
             <div class="filter-container"><div class="filter-container-details"></div>
             <div class="filter-chart-container-details"></div></div>
         </div>
         <div class="filter-ware">
             <h2>WARE</h2>
-            <button>+</button>
+            <button class="menu">+</button>
             <div class="filter-container"><div class="filter-container-ware"></div>
             <div class="filter-chart-container-ware"></div></div>
         </div>
         <div class="filter-conservation">
             <h2>CONSERVATION</h2>
-            <button>+</button>
+            <button class="menu">+</button>
         <div class="filter-container"> <div class="filter-container-conservation"></div>
             <div class="filter-chart-container-conservation"></div></div>
         </div>
 
         <div class="filter-production-place">
             <h2>PRODUCTION PLACE</h2>
-        <button>+</button>
+        <button class="menu">+</button>
         <div class="filter-container">
             <div class="filter-container-place"></div>
         <div class="filter-chart-container-place"></div>
@@ -75,7 +83,18 @@
     </div>
     </div>
     <div class="nav-bottom">
-        <h2></h2>
+        <div class="nav-bottom-container">
+            <h2></h2>
+            <p>Based on filters</p>
+        </div>
+        <div class="nav-bottom-container legend-container">
+            <h2>NUMBER OF FINDS</h2>
+            
+        </div>
+        <div class="nav-bottom-container">
+            <button class="button-macrosquare"></button>
+            <label> = 50 x 50 m</label>
+        </div>
     </div>
     <script src="script/index.js"></script>
 </body>

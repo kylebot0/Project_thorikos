@@ -33,6 +33,14 @@ canvas {
     z-index: 110000;
 }
 
+label:hover {
+    cursor: pointer;
+}
+
+input:hover {
+    cursor: pointer;
+}
+
 
 .mapboxgl-ctrl-bottom-right {
     opacity: 0;
@@ -40,39 +48,6 @@ canvas {
 
 .mapboxgl-ctrl-bottom-left {
     opacity: 0;
-}
-
-div.tooltip {
-    font-size: 15px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    text-align: center;
-    width: 135px;
-    height: 42px;
-    padding: 2px;
-    background: #FFF;
-    border: 0px;
-    pointer-events: none;
-    box-shadow: 0px 0px 10px 0px rgb(139, 139, 139);
-}
-
-div.tooltip:before {
-    content: '';
-    display: block;
-    width: 0;
-    height: 0;
-    position: absolute;
-
-    border-top: 8px solid white;
-    border-bottom: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-left: 8px solid transparent;
-    left: 50px;
-
-    top: 45px;
 }
 
 .nav-left {
@@ -91,7 +66,6 @@ div.tooltip:before {
     background-color: #FFF;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
     box-shadow: 0px 2px 27px 0px rgba(153, 153, 153, 1);
 }
@@ -103,6 +77,41 @@ div.tooltip:before {
 
 .nav-left-title h1 {
     margin-left: 10%;
+    margin-right: 10%;
+    font-size: 2em;
+}
+
+.nav-left-title-buttons {
+    margin-top: 0.3em;
+    margin-right: 2em;
+    /* height: 2em;
+    width: 3em; */
+}
+
+.nav-left-title-buttons button {
+    transition: all 400ms ease-out;
+    box-shadow: 0px 0px 10px 0px rgba(128, 128, 128, 1);
+    border: none;
+    text-decoration: none;
+    background-color: #fff;
+    cursor: pointer;
+    margin: 0;
+    font-family: greycliff_bold;
+    padding: 0.5em 2.5em 0.5em 2.5em;
+    outline: none;
+    /* height: 2em;
+    width: 3em; */
+}
+
+.nav-left-title-buttons button:first-of-type {
+    background-color: black;
+    color: white;
+}
+
+.nav-left-title-buttons button:last-of-type:hover {
+
+    background-color: black;
+    color: white;
 }
 
 .nav-left-fast-filters {
@@ -153,18 +162,7 @@ h2 {
     background-color: #FFF;
 }
 
-.nav-bottom {
-    right: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: absolute;
-    height: 12vh;
-    width: 68vw;
-    background-color: #EDEEEF;
-    z-index: 2000099;
-}
+
 
 .filter-container-chronology {
     transition: all 0.5s ease-out;
@@ -192,6 +190,7 @@ h2 {
     flex-direction: column;
     font-size: 0.8em;
     max-height: 0;
+    width: 65%;
     overflow: hidden;
     /* height: 0; */
 
@@ -214,6 +213,7 @@ h2 {
     font-size: 0.8em;
     max-height: 0;
     overflow: hidden;
+    width: 65%;
     /* height: 0; */
 }
 
@@ -234,6 +234,7 @@ h2 {
     font-size: 0.8em;
     max-height: 0;
     overflow: hidden;
+    width: 65%;
     /* height: 0; */
 }
 
@@ -254,6 +255,7 @@ h2 {
     font-size: 0.8em;
     max-height: 0;
     overflow: hidden;
+    width: 65%;
     /* height: 0; */
 }
 
@@ -274,7 +276,7 @@ h2 {
     font-size: 0.8em;
     max-height: 0;
     overflow: hidden;
-    width: 50%;
+    width: 65%;
     /* height: 0; */
 }
 
@@ -309,6 +311,7 @@ h2 {
 }
 
 .show {
+    border-left: 2px solid lightgrey;
     transition: all 0.5s ease-out !important;
     display: flex !important;
     max-height: 100% !important;
@@ -316,4 +319,132 @@ h2 {
 
 .filter-option {
     margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+.nav-bottom {
+    margin-left: auto;
+    padding: 1em 1em 1em 3em;
+    ;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    height: 12vh;
+    width: 65vw;
+    background-color: #EDEEEF;
+    z-index: 2000099;
+}
+
+.nav-bottom-container {
+    max-width: 25%;
+}
+
+.nav-bottom-container p {
+    color: grey;
+    margin: 0;
+}
+
+.nav-bottom-container:first-child h2 {
+    font-family: greycliff;
+    font-style: italic;
+    font-size: 1.25em;
+    margin: 0;
+}
+
+.nav-bottom-container:nth-child(2) h2 {
+    font-size: 1em;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.legend-container {
+    margin-left: 5em;
+    margin-right: 5em;
+    display: flex;
+    flex-direction: row;
+    width: 450px;
+    height: 100%;
+    max-width: 100%;
+}
+
+.legend-label {
+    font-size: 0.8em;
+}
+
+.button-macrosquare {
+    height: 2em;
+    width: 2em;
+}
+
+div.tooltip {
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    text-align: center;
+    width: 14%;
+    height: 30%;
+    padding: 2px;
+    background: #FFF;
+    border: 0px;
+    pointer-events: none;
+    box-shadow: 0px 0px 10px 0px rgb(139, 139, 139);
+}
+
+div.tooltip:before {
+    content: '';
+    display: block;
+    position: absolute;
+    background-clip: padding-box;
+    border: 30px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 200px solid transparent;
+    border-right: 100px solid transparent;
+    border-left: 100px solid transparent;
+    top: 100%;
+}
+
+.tooltip-container {
+
+    top: 0;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    flex-direction: row;
+    width: 80%;
+    height: 50%;
+}
+
+.tooltip-container:first-of-type {
+
+    margin: 5% 10% 10% 10%;
+    height: 30%;
+    border-bottom: 1px solid lightgrey;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.tooltip-container h3 {
+    padding-top: 0.25em;
+    font-family: greycliff_bold;
+    font-size: 2.5em;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+    margin: 0;
+}
+
+.tooltip h2 {
+    margin: 0;
+    width: 100%;
+    height: 10%;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    box-shadow: 0px 5px 10px 0px rgba(184, 184, 184, 0.8);
 }
