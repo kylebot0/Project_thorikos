@@ -57,10 +57,69 @@ about the pieces themselves and how people lived and how their settlements
 possibly shifted over time. The information about the finds may result in
 more research.
 
+## Grid 
+
+The archeologists are working with a grid, this grid has multiple numbering systems. For each 50 x 50 meter square they use a grid number, that grid number can also contain a context number. But a square can only have a context number if someone has examined that square (or smaller squares). The grid numbers on the x-axis go from C', B', A', A, B, C. etc. Then from the y-axis from top to bottom the numbers go from 53', 52', 51', 1, 2, 3. etc. 
+The context numbers are random however and are based on what year each square has been searched through.
+![preview](https://github.com/kylebot0/Project_thorikos/blob/master/gh-images/Schermafbeelding%202020-01-22%20om%2016.17.46.png)
 
 ## Features 🛠️
 
+### Mapbox implementation
+Before the grid can get plotted, i'm using a background of a mapbox map. The style that i'm using is a sattelite of only the streets. It's zoomed in to the place of Thorikos and centered perfectly.
+
+```javascript
+const map = new mapboxgl.Map({
+  container: "map",
+  style: "mapbox://styles/mapbox/satellite-streets-v11",
+  center: [24.053, 37.7385],
+  // bearing: 5,
+  zoom: 15.5
+});
+
+```
 ### Grid
+The grid is made using a .json feature file, with coördinates for each outer point and containing data for each square. The data that's inside is mesoindex number, row number, contextnumber, and name. The coördinates get plotted on a mapbox canvas, using a d3.geoMercator projection. Then a path get's drawn between the points making it a square. 
+```json
+ "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "c/",
+                "row": 53,
+                "mesoindex": 1
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            24.049985023339868,
+                            37.74100146276254
+                        ],
+                        [
+                            24.050269079944552,
+                            37.74099192299907
+                        ],
+                        [
+                            24.050263481754197,
+                            37.74076713791649
+                        ],
+                        [
+                            24.04997942591854,
+                            37.74077667593752
+                        ],
+                        [
+                            24.049985023339868,
+                            37.74100146276254
+                        ]
+                    ]
+                ]
+            }
+        }
+      ]
+```
 
 ### Heatmap
 
@@ -68,7 +127,6 @@ more research.
 
 ### Bar chart
 
-### Mapbox implementation
 
 - [x] Dynamically renders data
 - [x] request via an api
