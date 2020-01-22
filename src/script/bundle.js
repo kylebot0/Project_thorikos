@@ -231,7 +231,7 @@ function makeBars(filters, category, i) {
       return y(d.key) + 10;
     })
     .attr("x", function(d) {
-      return 110;
+      return 120;
     })
     .text(function(d) {
       return d.values.length;
@@ -460,8 +460,8 @@ function makeGrid(gridData, data) {
           .html(function() {
             return makeTooltip(d, data);
           })
-          .style("left", d3.event.pageX - 97 + "px")
-          .style("top", d3.event.pageY - 270 + "px");
+          .style("left", d3.event.pageX - 120 + "px")
+          .style("top", d3.event.pageY - 300 + "px");
       })
       .on("mouseout", d => {
         tooltip
@@ -581,7 +581,7 @@ function makeTooltip(d, data) {
       objectsFound +
       "</h3>" +
       "<p>FOUND OBJECTS*</p>" +
-      "</div><div class='tooltip-container'>" +
+      "</div><div class='tooltip-container'>" 
       +"</div>"
     );
   }
