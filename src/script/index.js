@@ -252,7 +252,8 @@ function appendFilters(filter, category) {
       key = key.replace(/[+]/g, "p");
       key = key.replace(/[?]/g, "q");
       return (
-        `<input id="${key}" class="filter" type="checkbox" checked="checked"> ` +
+        `<input id="${key}" class="filter" type="checkbox" checked="checked">
+        <span class="checkmark"></span>  ` +
         d.key
       );
     });
@@ -283,13 +284,14 @@ function filter(gridData, filters, data, cleanData) {
       d3.selectAll(".filter").property("checked", true);
       let nestedArray = nestData(cleanData);
       filteredArray = nestedArray;
+      updateBars(filters)
       makeGrid(gridData, filteredArray);
     } else if (this.id == "fast-filter-none") {
       data = [];
       d3.select("#fast-filter-all").property("checked", false);
       d3.select(this).property("checked", true);
       d3.selectAll(".filter").property("checked", false);
-
+      updateBars(filters)
       makeGrid(gridData, data);
     }
   });
