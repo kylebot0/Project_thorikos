@@ -1,6 +1,6 @@
 # Project_thorikos
 
-![preview](https://github.com/kylebot0/frontend-data/blob/master/gh-images/Schermafbeelding%202019-11-28%20om%2011.48.40.png)
+![preview](https://github.com/kylebot0/Project_thorikos/blob/master/gh-images/Schermafbeelding%202020-01-22%20om%2019.47.57.png)
 ## Table of Contents 🗃
 
 - [Live demo](#Live-demo)
@@ -22,21 +22,19 @@
 
 ## Introduction 📝
 
-Floris van der Eijnde's field archaeologist and works in the department of history at
+Floris van der Eijnde's is a field archaeologist and works in the department of history at
 the University of Utrecht. He also works at the Archaeological Fieldwork Project
 Thorikos. In this project, the University of Utrecht and Ghent University with
 more than ten European partners.
-Thorikos former city in Greece. Later it became
-part of the empire of Athens. Thorikos located on a mountain, where many shards
-and other debris are discoverable. Between 2012 and 2015, the Thorikos Survey Project
-conducted by the University of Utrecht and Ghent University. They have the full
-examined south side of the mountain, by shards and other debris to pick it up. Here
-they use a grid and a maximum of 20 minutes
-run by one person at a flat part. With this project, the museum archaeologists and archaeologists learn more
+Thorikos is a former city in Greece. Later it became
+part of the empire of Athens. Thorikos is located on a mountain, where many shards
+and other debris are laying around, ready to be picked up. Between 2012 and 2015, the Thorikos Survey Project was
+conducted by the University of Utrecht and Ghent University. They have fully
+examined the south side of the mountain, picking up shards and other debris. They use a grid which is 50 x 50 meters. they divide it into a smaller grid which is 25 x 25. Then they let a student walk in that 25 x25 square dividing it yet again in another square that is 12,5 x 12,5 meters for 20 minutes (see picture 2), they need to pick up everything from shards, to debris. With this project, the museum archaeologists and archaeologists learn more
 about how people lived in this area. They also find it interesting to
 see how their settlements have shifted over time, chronology is also an
 interesting factor.
-
+![preview](https://github.com/kylebot0/Project_thorikos/blob/master/gh-images/Schermafbeelding%202020-01-22%20om%2016.17.34.png)
 
 ## Different kinds of data
 
@@ -51,10 +49,9 @@ shards each person picked up, how long they have walked, who was the leader duri
 There is also the detailled information about the finds. This is all the information by 
 being linked to the museum on the material found: date, type of object, 
 type of glaze, find details, photos of the piece. All these items are 
-described in an Excel file. 
-In our visualization we decided to handle both types of data (you 
-can switch between two 'modes'), because they can both give some interesting insights 
-. The first mode 'field' is about the search when it 
+described in an Excel file. In our visualization we decided to handle both types of data (you 
+can switch between two 'modes'), because they can both give some interesting insights.
+The first mode 'field' is about the search when it 
 is efficient and who are the best searchers. The second 'finds' gives more information 
 about the pieces themselves and how people lived and how their settlements
 possibly shifted over time. The information about the finds may result in
