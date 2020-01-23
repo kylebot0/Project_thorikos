@@ -494,8 +494,16 @@ function makeGrid(gridData, data) {
     //Make legend
     makeLegend(data, pivotArray, maxValue);
     d3.select("#loading").remove().exit()
-  }
-
+  } 
+  let download = false;
+  d3.select(".button-download").on("click", function(){
+    download = !download;
+    if(download == true){
+      d3.select(".container-share").style("display", "block")
+    } else {
+      d3.select(".container-share").style("display", "none");
+    }
+  })
   map.on("viewreset", function() {
     render(true);
   });

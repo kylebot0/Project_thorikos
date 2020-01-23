@@ -387,18 +387,34 @@ h2 {
     flex-direction: column;
 }
 
-.nav-bottom-container:nth-child(4) p{
+.nav-bottom-container:nth-child(4) p {
     margin-top: 1em;
     /* font-size: 1.25em; */
 }
 
+.container-share img {
+    position: absolute;
+    height: 500px;
+    width: 250px;
+    top: 150px;
+    right: 0;
+}
+
+.container-share {
+    display: none;
+  z-index: 9999999999;
+}
+
+
 .button-download img {
-    height: 60px;
+    padding: 1em;
+    padding-right: 2em;
+    height: 50px;
     width: 50px;
 }
 
 .button-download {
-    width: 100%;
+    width: 110%;
     height: 100%;
     background-color: Transparent;
     background-repeat: no-repeat;
