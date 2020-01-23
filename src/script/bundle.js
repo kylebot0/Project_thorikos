@@ -498,9 +498,12 @@ function makeGrid(gridData, data) {
   let download = false;
   d3.select(".button-download").on("click", function(){
     download = !download;
-    if(download == true){
+    if (download == true) {
+      d3.select(this).transition().duration(300).style("background-color", "#D95236");
       d3.select(".container-share").style("display", "block")
     } else {
+
+      d3.select(this).transition().duration(300).style("background-color", "#000");
       d3.select(".container-share").style("display", "none");
     }
   })
